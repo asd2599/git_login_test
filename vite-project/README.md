@@ -1,16 +1,76 @@
-# React + Vite
+# My Space - 팀 대시보드
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+글래스모피즘 다크 테마 기반의 팀 개인 공간 관리 웹앱.
+로그인 후 현복 / 국현 / 판돌 각자의 전용 공간에 접근할 수 있다.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 기술 스택
 
-## React Compiler
+| 항목 | 버전 |
+|------|------|
+| React | 19 |
+| Vite | 7 |
+| 스타일 | CSS (글래스모피즘 다크 테마) |
+| 라우팅 | 없음 (useState 탭 전환) |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 시작하기
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 프로젝트 구조
+
+```
+src/
+├── App.jsx                   # 페이지 상태 관리 (login / register / main)
+├── Components/
+│   ├── Login.jsx / .css      # 로그인 페이지
+│   ├── Register.jsx / .css   # 회원가입 페이지
+│   ├── Main.jsx / .css       # 사이드바 + 탭 레이아웃
+│   └── Contents/
+│       ├── HB.jsx / .css     # 현복 - 채팅방
+│       ├── KH.jsx            # 국현 - 개인 공간
+│       └── PD.jsx / .css     # 판돌 - 태스크 보드
+docs/
+└── dashboard-feature.md      # 기능 작업 내역
+```
+
+---
+
+## 주요 기능
+
+### 인증
+- 이메일 + 비밀번호(6자 이상) Mock 로그인
+- 회원가입 폼 (유효성 검사 포함)
+
+### 현복 (HB) - 채팅방
+- 자동 응답 봇과의 채팅 UI
+- 실시간 스크롤 및 메시지 전송
+
+### 국현 (KH) - 개인 공간
+- 개인 커스텀 공간 (확장 예정)
+
+### 판돌 (PD) - 태스크 보드
+- 할 일 추가 / 완료 토글 / 삭제
+- 우선순위 태그 (높음 / 중간 / 낮음)
+- 전체 진행률 바
+- 주간 목표 진행률
+
+---
+
+## 페이지 전환 흐름
+
+```
+로그인 ──(성공)──▶ 메인(탭)
+   ▲                  │
+   └──────(로그아웃)──┘
+
+로그인 ◀──▶ 회원가입
+```
