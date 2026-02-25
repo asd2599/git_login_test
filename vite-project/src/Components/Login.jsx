@@ -10,13 +10,24 @@ function Login({ onSignupClick, onLoginSuccess }) {
     e.preventDefault();
     setError("");
 
-    // 샘플 인증: 이메일 + 비밀번호 6자 이상이면 로그인 허용
-    if (password.length < 6) {
-      setError("비밀번호는 6자 이상이어야 합니다.");
+    // 저장된 유저 목록 가져오기
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find((u) => u.email === email);
+
+    // 이메일 존재 여부 확인
+    if (!user) {
+      setError("가입되지 않은 이메일입니다.");
       return;
     }
 
-    const userData = { email, name: email.split("@")[0] };
+    // 비밀번호 검증
+    if (user.password !== password) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    // 로그인 성공 시 userData 전달
+    const userData = { email: user.email, name: user.name };
     if (onLoginSuccess) onLoginSuccess(userData);
   };
 
@@ -79,15 +90,17 @@ function Login({ onSignupClick, onLoginSuccess }) {
           </div>
 
           {error && (
-            <div style={{
-              background: "rgba(239, 68, 68, 0.12)",
-              border: "1px solid rgba(239, 68, 68, 0.3)",
-              borderRadius: "10px",
-              padding: "12px 16px",
-              color: "#fca5a5",
-              fontSize: "14px",
-              textAlign: "center",
-            }}>
+            <div
+              style={{
+                background: "rgba(239, 68, 68, 0.12)",
+                border: "1px solid rgba(239, 68, 68, 0.3)",
+                borderRadius: "10px",
+                padding: "12px 16px",
+                color: "#fca5a5",
+                fontSize: "14px",
+                textAlign: "center",
+              }}
+            >
               {error}
             </div>
           )}

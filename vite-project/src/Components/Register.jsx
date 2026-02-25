@@ -1,20 +1,35 @@
-import { useState } from 'react';
-import './Register.css';
+import { useState } from "react";
+import "./Register.css";
 
 function Signup({ onLoginClick }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const handleSignup = (e) => {
     e.preventDefault();
     if (password !== passwordConfirm) {
-      alert('비밀번호가 일치하지 않습니다.');
+      alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    console.log('Signup attempt with:', { name, email, password });
-    alert('아직 회원가입 기능은 연결 안 했어! 😎 일단 UI만 구경해봐.');
+
+    // 저장된 유저 목록 가져오기 (없으면 빈 배열)
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // 이메일 중복 확인
+    if (users.find((u) => u.email === email)) {
+      alert("이미 존재하는 이메일입니다.");
+      return;
+    }
+
+    // 새 유저 추가 후 로컬 스토리지에 저장
+    const newUser = { name, email, password };
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("회원가입이 완료되었습니다! 로그인해주세요. 🎉");
+    if (onLoginClick) onLoginClick(); // 로그인 페이지로 이동
   };
 
   const handleLoginClick = (e) => {
@@ -35,7 +50,7 @@ function Signup({ onLoginClick }) {
 
         <form
           onSubmit={handleSignup}
-          style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+          style={{ display: "flex", flexDirection: "column", gap: "24px" }}
         >
           <div className="input-group">
             <label htmlFor="name">이름</label>
