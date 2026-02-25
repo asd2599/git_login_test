@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Login.css";
 
-function Login() {
+function Login({ onSignupClick }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,7 +13,8 @@ function Login() {
 
   const handleSignupClick = (e) => {
     e.preventDefault();
-    alert("회원가입은 나중에 만든댔잖아! 😆");
+    if (onSignupClick) onSignupClick();
+    else alert("회원가입은 나중에 만든댔잖아! 😆");
   };
 
   return (
