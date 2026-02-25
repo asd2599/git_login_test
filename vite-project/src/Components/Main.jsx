@@ -10,7 +10,7 @@ function Main({ user, onLogout }) {
   const renderContent = () => {
     switch (activeTab) {
       case "hyunbok":
-        return <HB />;
+        return <HB user={user} />;
       case "kookhyun":
         return <KH />;
       case "pandol":
