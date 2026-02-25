@@ -1,14 +1,23 @@
 import { useState } from "react";
 import "./Login.css";
 
-function Login({ onSignupClick }) {
+function Login({ onSignupClick, onLoginSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Login attempt with:", { email, password });
-    alert("아직 로그인 기능은 연결 안 했어! 😎 일단 UI만 구경해봐.");
+    setError("");
+
+    // 샘플 인증: 이메일 + 비밀번호 6자 이상이면 로그인 허용
+    if (password.length < 6) {
+      setError("비밀번호는 6자 이상이어야 합니다.");
+      return;
+    }
+
+    const userData = { email, name: email.split("@")[0] };
+    if (onLoginSuccess) onLoginSuccess(userData);
   };
 
   const handleSignupClick = (e) => {
@@ -68,6 +77,20 @@ function Login({ onSignupClick }) {
               비밀번호 찾기
             </a>
           </div>
+
+          {error && (
+            <div style={{
+              background: "rgba(239, 68, 68, 0.12)",
+              border: "1px solid rgba(239, 68, 68, 0.3)",
+              borderRadius: "10px",
+              padding: "12px 16px",
+              color: "#fca5a5",
+              fontSize: "14px",
+              textAlign: "center",
+            }}>
+              {error}
+            </div>
+          )}
 
           <button type="submit" className="login-button">
             로그인
